@@ -30,8 +30,8 @@ $(function() {
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
-         */
-        it('has all name defined',function()
+         */        
+        it('has all url defined',function()
         {
             for (var x = 0; x < allFeeds.length; x++) {
                 expect(allFeeds[x].url).toBeDefined();
@@ -44,7 +44,7 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-        it('has all URLs defined', function () {
+        it('has all name defined', function () {
             for (var x = 0; x < allFeeds.length; x++) {
                 expect(allFeeds[x].name).toBeDefined();
                 expect(allFeeds[x].name).not.toBe('');
@@ -72,13 +72,13 @@ $(function() {
         
         it("toggle menu show", function () {
             
-            $('.menu-icon-link').trigger("click");
+            $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(false);
         });
         it('toggle menu hide', function()
         {
 
-            $('.menu-icon-link').trigger("click");
+            $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
@@ -92,11 +92,11 @@ $(function() {
          */
         var feedList = $('ul.feed-list > li > a');
         beforeEach(function (done) {
-            loadFeed(0,function () { done() })
+            loadFeed(0, done);
 
         })
         it('should load the initial entry', function (done) {
-            expect($('.feed').is(':empty')).toBe(false);
+            expect($('.entry-link').length>0).toBe(true);
             done();
         });
         
@@ -109,17 +109,24 @@ $(function() {
             var oldFeed;
             beforeEach(function (done) {
         
-                //load anything but 0    
-                oldFeed = $('.feed').html();
-                loadFeed(1, function () { done(); });
-
+                //load feed first different feeds
+                loadFeed(0, function () {
+                    oldFeed = $('.feed').html();
+                    done();
+                });
+                
             });
             
-            it('should load different feed', function (done) {
-
-                expect($('.feed').html()==oldFeed).toBe(false);
-                done();
+            it('should get a new feed', function (done) {                
+                
+                loadFeed(1, function()
+                {
+                    expect($('.feed').html()).not.toEqual(oldFeed);
+                    done();
+                })
+                                    
             });
+            
         });
     });
 }());
