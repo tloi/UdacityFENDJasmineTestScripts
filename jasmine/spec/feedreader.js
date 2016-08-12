@@ -96,7 +96,7 @@ $(function() {
 
         })
         it('should load the initial entry', function (done) {
-            expect($('.entry-link').length>0).toBe(true);
+            expect($('.feed .entry').length>0).toBe(true);
             done();
         });
         
@@ -119,8 +119,7 @@ $(function() {
             
             it('should get a new feed', function (done) {                
                 
-                loadFeed(1, function()
-                {
+                loadFeed(1, function() {
                     expect($('.feed').html()).not.toEqual(oldFeed);
                     done();
                 })
